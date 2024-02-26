@@ -14,89 +14,84 @@ import org.evosuite.runtime.EvoRunnerParameters;
 import org.junit.runner.RunWith;
 import tutorial.Stack;
 
-@RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true, useJEE = true) 
+@RunWith(EvoRunner.class) @EvoRunnerParameters(mockJVMNonDeterminism = true, useVFS = true, useVNET = true, resetStaticState = true, separateClassLoader = true, useJEE = true)
 public class Stack_ESTest extends Stack_ESTest_scaffolding {
 
     @Test(timeout = 4000)
-    public void test0()  throws Throwable  {
-        Stack<String> stack0 = new Stack<String>();
-        assertTrue(stack0.isEmpty());
+    public void testEmptyStackAfterPushAndPop() throws Throwable {
+        Stack<String> testStack = new Stack<String>();
+        assertTrue(testStack.isEmpty());
 
-        stack0.push("`!W/a/`.u  hPgPa6d");
-        stack0.push((String) null);
-        stack0.pop();
-        assertFalse(stack0.isEmpty());
+        testStack.push("`!W/a/`.u  hPgPa6d");
+        testStack.push((String) null);
+        testStack.pop();
+        assertFalse(testStack.isEmpty());
     }
 
     @Test(timeout = 4000)
-    public void test1()  throws Throwable  {
-        Stack<Object> stack0 = new Stack<Object>();
-        boolean boolean0 = stack0.isEmpty();
-        assertTrue(boolean0);
+    public void testEmptyStackInitially() throws Throwable {
+        Stack<Object> testStack = new Stack<Object>();
+        boolean isStackEmpty = testStack.isEmpty();
+        assertTrue(isStackEmpty);
     }
 
     @Test(timeout = 4000)
-    public void test2()  throws Throwable  {
-        Stack<Object> stack0 = new Stack<Object>();
-        assertTrue(stack0.isEmpty());
+    public void testStackNotEmptyAfterPushingInteger() throws Throwable {
+        Stack<Object> testStack = new Stack<Object>();
+        assertTrue(testStack.isEmpty());
 
-        Integer integer0 = new Integer((-1856));
-        stack0.push(integer0);
-        boolean boolean0 = stack0.isEmpty();
-        assertFalse(boolean0);
+        Integer testInteger = new Integer((-1856));
+        testStack.push(testInteger);
+        boolean isStackEmptyAfterPush = testStack.isEmpty();
+        assertFalse(isStackEmptyAfterPush);
     }
 
     @Test(timeout = 4000)
-    public void test3()  throws Throwable  {
-        Stack<String> stack0 = new Stack<String>();
+    public void testPopEmptyStackThrowsEmptyStackException() throws Throwable {
+        Stack<String> testStack = new Stack<String>();
         // Undeclared exception!
         try {
-            stack0.pop();
+            testStack.pop();
             fail("Expecting exception: EmptyStackException");
-
-        } catch(EmptyStackException e) {
-            //
-            // no message in exception (getMessage() returned null)
-            //
-            verifyException("tutorial.Stack", e);
+        } catch(EmptyStackException emptyStackException) {
+            verifyException("tutorial.Stack", emptyStackException);
         }
     }
 
     @Test(timeout = 4000)
-    public void test4()  throws Throwable  {
-        Stack<String> stack0 = new Stack<String>();
-        stack0.push("\"LZ, uT'JK<y");
-        assertFalse(stack0.isEmpty());
+    public void testPushedElementMakesStackNotEmptyThenEmptyAfterPop() throws Throwable {
+        Stack<String> testStack = new Stack<String>();
+        testStack.push("\"LZ, uT'JK<y");
+        assertFalse(testStack.isEmpty());
 
-        stack0.pop();
-        assertTrue(stack0.isEmpty());
+        testStack.pop();
+        assertTrue(testStack.isEmpty());
     }
 
     @Test(timeout = 4000)
-    public void test5()  throws Throwable  {
-        Stack<Object> stack0 = new Stack<Object>();
-        Integer integer0 = new Integer((-1856));
-        stack0.push(integer0);
-        stack0.push(integer0);
-        Object object0 = new Object();
-        stack0.push(object0);
-        stack0.push((Object) null);
-        stack0.push(integer0);
-        stack0.push("\"LZ, uT'JK<y");
-        stack0.push("\"LZ, uT'JK<y");
-        stack0.push("\"LZ, uT'JK<y");
-        stack0.push(integer0);
-        stack0.push((Object) null);
+    public void testPushingObjectsAndHandlingStackOverflow() throws Throwable {
+        Stack<Object> testStack = new Stack<Object>();
+        Integer testInteger = new Integer((-1856));
+        Object testObject = new Object();
+
+        testStack.push(testInteger);
+        testStack.push(testInteger);
+        testStack.push(testObject);
+        testStack.push((Object) null);
+        testStack.push(testInteger);
+        testStack.push("\"LZ, uT'JK<y");
+        testStack.push("\"LZ, uT'JK<y");
+        testStack.push("\"LZ, uT'JK<y");
+        testStack.push(testInteger);
+        testStack.push((Object) null);
+
         // Undeclared exception!
         try {
-            stack0.push("");
+            testStack.push("");
             fail("Expecting exception: RuntimeException");
-
-        } catch(RuntimeException e) {
-            //
+        } catch(RuntimeException runtimeException) {
             // Stack exceeded capacity!
-            //
-            verifyException("tutorial.Stack", e);
+            verifyException("tutorial.Stack", runtimeException);
         }
     }
 }
